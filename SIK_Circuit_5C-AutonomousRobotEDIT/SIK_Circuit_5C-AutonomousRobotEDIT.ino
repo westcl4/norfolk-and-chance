@@ -57,27 +57,28 @@ void setup()
   pinMode(BIN2, OUTPUT);
   pinMode(PWMB, OUTPUT);
 
-  Serial.begin(9600);                       //begin serial communication with the computer
-  Serial.print("To infinity and beyond!");  //test the serial connection
+  //Serial.begin(9600);                       //begin serial communication with the computer
+  //Serial.print("To infinity and beyond!");  //test the serial connection
 }
 
 /********************************************************************************/
 void loop()
 {
   //DETECT THE DISTANCE READ BY THE DISTANCE SENSOR
+  int distanceint = 0;
   distance = getDistance();
-
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" in");              // print the units
+  distanceint = int(distance);
+  //Serial.print("Distance: ");
+  //Serial.print(distance);
+  //Serial.println(" in");              // print the units
 
   if (digitalRead(switchPin) == LOW) { //if the on switch is flipped
 
-    if (distance < 10) {              //if an object is detected
+    if (distanceint < 10) {              //if an object is detected
       //back up and turn
-      Serial.print(" ");
-      Serial.print("BACK!");
-
+      //Serial.print(" ");
+      //Serial.print("BACK!");
+     
       //stop for a moment
       rightMotor(0);
       leftMotor(0);
@@ -89,13 +90,13 @@ void loop()
       delay(backupTime);
 
       //turn away from obstacle
-      rightMotor(255);
-      leftMotor(-255);
+      rightMotor(0);
+      leftMotor(0);
       delay(turnTime);
 
     } else {                        //if no obstacle is detected drive forward
-      Serial.print(" ");
-      Serial.print("Moving...");
+     // Serial.print(" ");
+      //Serial.print("Moving...");
 
 
       rightMotor(255);
@@ -168,7 +169,7 @@ float getDistance()
   echoTime = pulseIn(echoPin, HIGH);      //use the pulsein command to see how long it takes for the
                                           //pulse to bounce back to the sensor
 
-  calculatedDistance = echoTime / 148.0;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)
+  calculatedDistance = echoTime / 148;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)
 
   return calculatedDistance;              //send back the distance that was calculated
 }
