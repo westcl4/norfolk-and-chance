@@ -22,10 +22,13 @@ int RedPin = 5;
 int GreenPin = 6;
 int BluePin = 7;
 int buzzerPin = 4;
+byte x = 0;
+int potPin = 2;
+int potVal = 0;
+
 
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Adafruit MLX90614 test");  
+  Wire.begin(); 
   mlx.begin();  
   lcd.begin(16, 2);                 //tell the lcd library that we are using a display that is 16 characters wide and 2 characters high
   lcd.clear();                      //clear the display
@@ -33,33 +36,37 @@ void setup() {
   pinMode(GreenPin, OUTPUT);
   pinMode(BluePin, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
+  pinMode(potPin, INPUT);
+  lcd.setCursor(0, 0);             
+  lcd.print("Tempertaure Safe"); 
+  green();
 }
 
-void loop() {
-
-  lcd.setCursor(0, 0);              //set the cursor to the 0,0 position (top left corner)
-  lcd.print("Hello, world!");       //print hello, world! starting at that position
-
-  lcd.setCursor(0, 1);              //move the cursor to the first space of the bottom row
-  lcd.print(millis() / 1000);   
-  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempC()); 
-  Serial.print("*C\tObject = "); Serial.print(mlx.readObjectTempC()); Serial.println("*C");
-  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF()); 
-  Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
-  Serial.println();
-  delay(500);
+void loop() {         
   if (mlx.readObjectTempC() >= 35) {
      red();
      tone(buzzerPin, 272);
-     lcd.print("HOT");
-  }
- 
+     lcd.print("DANGER EVACUATE ");
+     lcd.setCursor(0, 1);   
+     lcd.print("DANGER EVACUATE ");
+  } 
+  //Wire.beginTransmission(9); // transmit to device #9
+ // Wire.write(potVal);              // sends x 
+  //Wire.endTransmission();
 }
 
-void red () {
+void red() {
 
   //set the LED pins to values that make red
   analogWrite(RedPin, 100);
   analogWrite(GreenPin, 0);
+  analogWrite(BluePin, 0);
+}
+
+void green() {
+
+  //set the LED pins to values that make red
+  analogWrite(RedPin, 0);
+  analogWrite(GreenPin, 100);
   analogWrite(BluePin, 0);
 }
