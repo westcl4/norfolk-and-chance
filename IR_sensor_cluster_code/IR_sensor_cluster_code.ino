@@ -25,10 +25,10 @@ int buzzerPin = 4;
 byte x = 0;
 
 void setup() {
-  //Wire.begin(); 
+  Wire.begin(); 
   mlx.begin();  
-  lcd.begin(16, 2);                 //tell the lcd library that we are using a display that is 16 characters wide and 2 characters high
-  lcd.clear();                      //clear the display
+  lcd.begin(16, 2);                 
+  lcd.clear();                     
   pinMode(RedPin, OUTPUT);
   pinMode(GreenPin, OUTPUT);
   pinMode(BluePin, OUTPUT);
@@ -40,37 +40,30 @@ void setup() {
 }
 
 void loop() {         
-  if (mlx.readObjectTempC() >= 35) {
+  if (mlx.readObjectTempC() >= 35 || mlx.readAmbientTempC >= 35 ) {
      red();
      tone(buzzerPin, 272);
+     lcd.clear();
      lcd.print("DANGER EVACUATE ");
-     lcd.setCursor(0, 1);   
-     lcd.print("DANGER EVACUATE ");
-     Wire.beginTransmission(9); // transmit to device #9
-     Wire.write(x);              // sends x 
+     Wire.beginTransmission(9); 
+     Wire.write(x);             
      Wire.endTransmission();
   }
   else {
         green();
+        lcd.clear();
         lcd.print("Tempertaure Safe"); 
         noTone(buzzerPin);
   }
-//  Serial.println(mlx.readAmbientTempC());
- // Serial.println(mlx.readObjectTempC());
-  delay(500);
 }
 
 void red() {
-
-  //set the LED pins to values that make red
   analogWrite(RedPin, 100);
   analogWrite(GreenPin, 0);
   analogWrite(BluePin, 0);
 }
 
 void green() {
-
-  //set the LED pins to values that make red
   analogWrite(RedPin, 0);
   analogWrite(GreenPin, 100);
   analogWrite(BluePin, 0);
