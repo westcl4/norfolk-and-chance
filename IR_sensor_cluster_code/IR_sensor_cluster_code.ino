@@ -33,25 +33,27 @@ void setup() {
   pinMode(GreenPin, OUTPUT);
   pinMode(BluePin, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
-  lcd.setCursor(0, 0);             
-  lcd.print("Tempertaure Safe"); 
   green();
   Serial.begin (9600);
 }
 
 void loop() {         
-  if (mlx.readObjectTempC() >= 35 || mlx.readAmbientTempC >= 35 ) {
+  if (mlx.readObjectTempC() >= 35 || mlx.readAmbientTempC() >= 35 ) {
      red();
      tone(buzzerPin, 272);
-     lcd.clear();
-     lcd.print("DANGER EVACUATE ");
+     lcd.setCursor(0,0);
+     lcd.print("DANGER EVACUATE!");
+     lcd.setCursor(0,1);
+     lcd.print("DANGER EVACUATE!");
      Wire.beginTransmission(9); 
      Wire.write(x);             
      Wire.endTransmission();
   }
   else {
         green();
-        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Tempertaure Safe");
+        lcd.setCursor(0,1);
         lcd.print("Tempertaure Safe"); 
         noTone(buzzerPin);
   }
