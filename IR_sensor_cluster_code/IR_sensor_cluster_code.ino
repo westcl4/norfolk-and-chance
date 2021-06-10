@@ -1,19 +1,6 @@
-/*
-  SparkFun Inventor’s Kit
-  Circuit 4A-HelloWorld
-
-  The LCD will display the words "Hello World" and show how many seconds have passed since
-  the RedBoard was last reset.
-
-  This sketch was written by SparkFun Electronics, with lots of help from the Arduino community.
-  This code is completely free for any use.
-
-  View circuit diagram and instructions at: https://learn.sparkfun.com/tutorials/sparkfun-inventors-kit-experiment-guide---v40
-  Download drawings and code at: https://github.com/sparkfun/SIK-Guide-Code
-*/
 
 #include <LiquidCrystal.h>          //the liquid crystal library contains commands for printing to the display
-#include <Wire.h>
+#include <Wire.h>                   //the Wire library allows communication with I2C
 #include <Adafruit_MLX90614.h>
 
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
@@ -22,7 +9,7 @@ int RedPin = 5;
 int GreenPin = 6;
 int BluePin = 7;
 int buzzerPin = 4;
-byte x = 0;
+int x = 0;
 
 void setup() {
   Wire.begin(); 
@@ -46,6 +33,7 @@ void loop() {
      lcd.setCursor(0,1);
      lcd.print("DANGER EVACUATE!");
      Wire.beginTransmission(9); 
+     x = 1;
      Wire.write(x);             
      Wire.endTransmission();
   }
@@ -55,8 +43,16 @@ void loop() {
         lcd.print("Tempertaure Safe");
         lcd.setCursor(0,1);
         lcd.print("Tempertaure Safe"); 
+        
         noTone(buzzerPin);
+        Wire.beginTransmission(9); 
+        x = 0;
+        Wire.write(x);             
+        Wire.endTransmission();
   }
+}
+void receiveEvent(int bytes) {
+  x = Wire.read();    // read one character from the I2C
 }
 
 void red() {

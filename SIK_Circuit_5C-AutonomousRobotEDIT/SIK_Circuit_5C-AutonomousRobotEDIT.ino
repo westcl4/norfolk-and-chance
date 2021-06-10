@@ -13,7 +13,7 @@
   View circuit diagram and instructions at: https://learn.sparkfun.com/tutorials/sparkfun-inventors-kit-experiment-guide---v41
   Download drawings and code at: https://github.com/sparkfun/SIK-Guide-Code
 */
-
+#include <Wire.h>
 
 
 //the right motor will be controlled by the motor A pins on the motor driver
@@ -38,10 +38,12 @@ float distance = 0;            //variable to store the distance measured by the 
 //robot behaviour variables
 int backupTime = 300;           //amount of time that the robot will back up when it senses an object
 int turnTime = 200;             //amount that the robot will turn once it has backed up
-
+int x = 0;
 /********************************************************************************/
 void setup()
 {
+  Wire.begin(9); 
+  Wire.onReceive(receiveEvent); 
   pinMode(trigPin, OUTPUT);       //this pin will send ultrasonic pulses out from the distance sensor
   pinMode(echoPin, INPUT);        //this pin will sense when the pulses reflect back to the distance sensor
 
@@ -60,6 +62,9 @@ void setup()
   //Serial.begin(9600);                       //begin serial communication with the computer
   //Serial.print("To infinity and beyond!");  //test the serial connection
 }
+void receiveEvent(int bytes) {
+  x = Wire.read();    // read one character from the I2C
+}
 
 /********************************************************************************/
 void loop()
@@ -73,45 +78,49 @@ void loop()
   //Serial.println(" in");              // print the units
 
   if (digitalRead(switchPin) == LOW) { //if the on switch is flipped
-
-    if (distanceint < 10) {              //if an object is detected
-      //back up and turn
-      //Serial.print(" ");
-      //Serial.print("BACK!");
-     
-      //stop for a moment
-      rightMotor(0);
-      leftMotor(0);
-      delay(200);
-
-      //back up
-      rightMotor(-255);
-      leftMotor(-255);
-      delay(backupTime);
-
-      //turn away from obstacle
-      rightMotor(0);
-      leftMotor(0);
-      delay(turnTime);
-
-    } else {                        //if no obstacle is detected drive forward
-     // Serial.print(" ");
-      //Serial.print("Moving...");
-
-
-      rightMotor(255);
-      leftMotor(255);
+    if( x == 0){
+              if (distanceint < 10) {              //if an object is detected
+                //back up and turn
+                //Serial.print(" ");
+                //Serial.print("BACK!");
+               
+                //stop for a moment
+                rightMotor(0);
+                leftMotor(0);
+                delay(200);
+          
+                //back up
+                rightMotor(-255);
+                leftMotor(-255);
+                delay(backupTime);
+          
+                //turn away from obstacle
+                rightMotor(0);
+                leftMotor(0);
+                delay(turnTime);
+          
+              } else {                        //if no obstacle is detected drive forward
+               // Serial.print(" ");
+                //Serial.print("Moving...");
+          
+          
+                rightMotor(255);
+                leftMotor(255);
+              }
+            } else {                        //if the switch is off then stop
+          
+              //stop the motors
+              rightMotor(0);
+              leftMotor(0);
+            }
+          
+            delay(50);                      //wait 50 milliseconds between readings
+          }
+     else{
+          rightMotor(0);
+          leftMotor(0);
     }
-  } else {                        //if the switch is off then stop
-
-    //stop the motors
-    rightMotor(0);
-    leftMotor(0);
   }
-
-  delay(50);                      //wait 50 milliseconds between readings
-}
-
 /********************************************************************************/
 void rightMotor(int motorSpeed)                       //function for driving the right motor
 {
