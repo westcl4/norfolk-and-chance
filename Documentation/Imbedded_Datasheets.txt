@@ -1,0 +1,37 @@
+IRF SENSOR
+https://www.sparkfun.com/datasheets/Sensors/Temperature/SEN-09570-datasheet-3901090614M005.pdf
+
+REDBOARD DIAGRAM
+https://cdn.sparkfun.com/assets/c/5/7/e/f/RedBoard-Qwiic.pdf
+
+BREADBOARD
+http://cdn.sparkfun.com/datasheets/Prototyping/breadboard.pdf
+
+RGB LIGHT
+https://www.sparkfun.com/datasheets/Components/LED/YSL-R596CR4G3B5W-F12.pdf
+
+BUZZER
+http://cdn.sparkfun.com/datasheets/Components/General/cem-1203-42-.pdf
+
+JUMPER CABLES
+7" long
+Unavalible 
+
+DISTANCE SENSOR 
+https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
+
+MOTORS
+https://cdn.sparkfun.com/datasheets/Robotics/DG01D.jpg
+
+MOTOR DRIVER 
+https://www.sparkfun.com/datasheets/Robotics/TB6612FNG.pdf
+
+SWITCH
+https://www.sparkfun.com/datasheets/Components/Buttons/P040040c.pdf
+Could only find drawing
+
+LCD SCREEN 
+https://www.sparkfun.com/datasheets/LCD/GDM1602K.pdf
+
+RESISTORS
+These are your run-of-the-mill 1/4 Watt, +/- 5% tolerance PTH resistors. Commonly used in breadboards and other prototyping applications
