@@ -12,6 +12,12 @@
 
   View circuit diagram and instructions at: https://learn.sparkfun.com/tutorials/sparkfun-inventors-kit-experiment-guide---v41
   Download drawings and code at: https://github.com/sparkfun/SIK-Guide-Code
+  
+********** AUTHORS NOTE:************
+  ============================================================================
+  This code was mostly recycled from Circuit 5C provided in the Sparkfun Inventor's Kit.
+  There are a few additions to the file regarding communication with the other RedBoard.
+  ============================================================================
 */
 #include <Wire.h>
 
@@ -42,7 +48,7 @@ int x = 0;
 /********************************************************************************/
 void setup()
 {
-  Wire.begin(9); 
+  Wire.begin(9); //Code written by Ryan to listen for other board's commands:
   Wire.onReceive(receiveEvent); 
   pinMode(trigPin, OUTPUT);       //this pin will send ultrasonic pulses out from the distance sensor
   pinMode(echoPin, INPUT);        //this pin will sense when the pulses reflect back to the distance sensor
@@ -61,7 +67,7 @@ void setup()
 
   //Serial.begin(9600);                       //begin serial communication with the computer
   //Serial.print("To infinity and beyond!");  //test the serial connection
-}
+} //Code written by Ryan to listen for other board's commands:
 void receiveEvent(int bytes) {
   x = Wire.read();    // read one character from the I2C
 }
